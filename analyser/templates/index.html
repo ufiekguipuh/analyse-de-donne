@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Ma plateforme Data</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <h1>Bienvenue sur la plateforme d’analyse</h1>
+
+  <form action="{% url 'analyse_fichier' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="forme">
+      <!-- Champ pour le sujet ou le prompt -->
+      <label for="sujet">Question / Sujet d'analyse géographique :</label><br>
+      <textarea id="sujet" name="sujet" placeholder="Ex: Identifie le type de relief, le couvert végétal ou la structure urbaine..."></textarea>
+      
+
+      <!-- Champ pour le fichier -->
+      <label for="file">Sélectionner un fichier :</label><br>
+      <input type="file" id="file" name="file" accept=".pdf,.csv,.xlsx,.json,.jpg,.jpeg,.png,.webp" required>
+      <button type="submit">Analyser</button>
+    </div>
+  </form>    
+
+  <!-- Affichage direct du résultat si rendu via Django -->
+  {% if resultat %}
+    <div id="resultat-container" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc;">
+      <h2>Résultat de l'analyse :</h2>
+      <pre>{{ resultat }}</pre>
+    </div>
+  {% endif %}
+
+  <div id="output"></div>
+  <script src="{% static 'app.js' %}"></script>
+</body>
+</html>
